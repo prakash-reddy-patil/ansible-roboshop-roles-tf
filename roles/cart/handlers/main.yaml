@@ -1,0 +1,8 @@
+- name: daemon reload
+# systemctl daemon-reload
+  ansible.builtin.systemd_service:
+    daemon_reload: true   
+
+ 
+  # daemon_reload: true tells systemd to reload its service configuration files
+  #In Ansible, handlers (or notifiers) are special tasks that run only when notified by other tasks. When a task reports a change, it can notify a handler to perform an action (such as restarting a service). If there is no change, the handler will not run.

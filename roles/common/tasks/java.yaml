@@ -1,0 +1,18 @@
+ - name: install maven
+   ansible.builtin.dnf:
+      name: "{{ item }}"
+      state: present
+   loop:
+    - maven
+    - mysql
+
+    
+ - name: install dependencies
+   ansible.builtin.command: mvn clean package
+   args:                # args: → extra options for the task  #chdir: → change directory before running the command
+    chdir: /app    # args: chdir: /app means “Go to the /app folder first, then run the task.”
+
+ - name: move jar file
+   ansible.builtin.command: mv target/{{ component }}-{{ version }}.jar {{ component }}.jar
+   args:
+    chdir: /app

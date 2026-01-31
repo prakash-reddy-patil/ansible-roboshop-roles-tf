@@ -1,0 +1,9 @@
+MONGODB_HOST: mongodb.divyavutakanti.shop
+REDIS_HOST: redis.divyavutakanti.shop
+CATALOGUE_HOST: catalogue.divyavutakanti.shop
+CART_HOST: cart.divyavutakanti.shop
+USER_HOST: user.divyavutakanti.shop
+RABBITMQ_HOST: rabbitmq.divyavutakanti.shop
+MYSQL_HOST: mysql.divyavutakanti.shop
+SHIPPING_HOST: shipping.divyavutakanti.shop
+PAYMENT_HOST: payment.divyavutakanti.shop

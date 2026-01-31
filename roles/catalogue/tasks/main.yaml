@@ -1,0 +1,42 @@
+- name: app setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-setup.yaml
+  tags:        # Tags in Ansible help you run only specific parts of a playbook instead of running everything.
+  - deployment
+
+- name: app setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: nodejs.yaml
+  tags:       
+  - deployment
+
+- name: copy mongo repo
+  ansible.builtin.copy:
+      src: mongo.repo
+      dest: /etc/yum.repos.d/mongo.repo
+
+- name: instal mongodb clint
+  ansible.builtin.package:
+      name: mongodb-mongosh
+      state: present
+
+- name: connnect to mongodb catalogue
+  ansible.builtin.command: mongosh {{ MONGODB_HOST }} --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')"
+  register: catalogue_output
+
+- name: load products into mongodb
+  ansible.builtin.shell: mongosh --host {{ MONGODB_HOST }} </app/db/master-data.js
+  when: catalogue_output.stdout | int < 0
+
+- name: app setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: system-setup.yaml
+  tags:           #Tags in Ansible help you run only specific parts of a playbook instead of running everything.
+  - deployment
+
+# catalogue is one role, common is another role
+# catalogue should import the tasks in common role
+# ansible.builtin.import_role:
